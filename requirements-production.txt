@@ -1,0 +1,6 @@
+# Production requirements
+# Install these when deploying to production with PostgreSQL
+
+-r requirements.txt
+psycopg2-binary==2.9.9
+
