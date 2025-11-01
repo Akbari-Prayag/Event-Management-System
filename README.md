@@ -293,10 +293,9 @@ curl -X POST http://localhost:8000/api/events/1/reviews/ \
 
 ## 📖 Documentation
 
-- [Quick Start Guide](QUICKSTART.md) - Get up and running in 5 minutes
-- [How to Run](HOW_TO_RUN.md) - Detailed setup instructions
 - [Deployment Guide](DEPLOYMENT.md) - Production deployment instructions
-- [Implementation Details](IMPLEMENTATION.md) - Technical documentation
+- [Contributing Guidelines](CONTRIBUTING.md) - How to contribute to this project
+- [About the Author](AUTHOR.md) - Learn more about the developer
 
 ---
 
