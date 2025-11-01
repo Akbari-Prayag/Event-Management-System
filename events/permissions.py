@@ -1,3 +1,10 @@
+"""
+Event Management System - Custom Permissions
+Author: Akbari Prayag
+GitHub: https://github.com/Akbari-Prayag/Event-Management-System
+
+Custom permission classes for fine-grained access control.
+"""
 from rest_framework import permissions
 
 

@@ -1,3 +1,10 @@
+"""
+Event Management System - API Views
+Author: Akbari Prayag
+GitHub: https://github.com/Akbari-Prayag/Event-Management-System
+
+ViewSets and API endpoints for Event, RSVP, and Review management.
+"""
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response

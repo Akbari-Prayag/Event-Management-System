@@ -1,5 +1,9 @@
 """
 Django settings for event_management project.
+
+Event Management System API
+Author: Akbari Prayag
+GitHub: https://github.com/Akbari-Prayag/Event-Management-System
 """
 
 from pathlib import Path

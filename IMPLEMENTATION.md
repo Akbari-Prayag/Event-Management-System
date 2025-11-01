@@ -1,5 +1,9 @@
 # Implementation Summary
 
+**Event Management System API**  
+Author: [Akbari Prayag](https://github.com/Akbari-Prayag)  
+Repository: [Event-Management-System](https://github.com/Akbari-Prayag/Event-Management-System)
+
 ## Assignment Requirements Checklist
 
 ### ✅ 1. Models

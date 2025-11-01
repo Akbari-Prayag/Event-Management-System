@@ -1,3 +1,10 @@
+"""
+Event Management System - Models
+Author: Akbari Prayag
+GitHub: https://github.com/Akbari-Prayag/Event-Management-System
+
+Database models for Event, UserProfile, RSVP, Review, and EventInvitation.
+"""
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator

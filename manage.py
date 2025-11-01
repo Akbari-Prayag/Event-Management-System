@@ -1,5 +1,11 @@
 #!/usr/bin/env python
-"""Django's command-line utility for administrative tasks."""
+"""
+Django's command-line utility for administrative tasks.
+
+Event Management System API
+Author: Akbari Prayag
+GitHub: https://github.com/Akbari-Prayag/Event-Management-System
+"""
 import os
 import sys
 

@@ -1,3 +1,10 @@
+"""
+Event Management System - Serializers
+Author: Akbari Prayag
+GitHub: https://github.com/Akbari-Prayag/Event-Management-System
+
+DRF serializers for API request/response handling.
+"""
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from .models import UserProfile, Event, RSVP, Review, EventInvitation

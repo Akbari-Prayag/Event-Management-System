@@ -1,315 +1,159 @@
-# Event Management System
+# Event Management System API
 
-A comprehensive Django REST Framework API for managing events, RSVPs, and reviews with JWT authentication, custom permissions, and asynchronous email notifications using Celery.
+<div align="center">
 
-## Features
+**A comprehensive Django REST Framework API for managing events, RSVPs, and reviews**
 
-- **Event Management**: Create, read, update, and delete events
-- **RSVP System**: Users can RSVP to events with status (Going, Maybe, Not Going)
-- **Review System**: Users can leave reviews and ratings for events
-- **JWT Authentication**: Secure API access using JSON Web Tokens
-- **Custom Permissions**: 
-  - Only organizers can edit/delete their events
-  - Private events accessible only to invited users
-- **Pagination**: All list endpoints are paginated
-- **Filtering & Search**: Filter events by organizer, location, and search by title/description
-- **Asynchronous Tasks**: Email notifications using Celery for:
-  - New event creation
-  - Event updates
-  - RSVP notifications
-  - Review notifications
-- **Unit Tests**: Comprehensive test coverage for API endpoints
+[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
+[![Django](https://img.shields.io/badge/Django-4.2.7-green.svg)](https://www.djangoproject.com/)
+[![DRF](https://img.shields.io/badge/DRF-3.14.0-red.svg)](https://www.django-rest-framework.org/)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-## Tech Stack
+**Built by [Akbari Prayag](https://github.com/Akbari-Prayag)**
 
-- **Backend**: Django 4.2.7, Django REST Framework 3.14.0
-- **Authentication**: JWT (djangorestframework-simplejwt)
-- **Task Queue**: Celery 5.3.4 with Redis
-- **Database**: SQLite (default, can be configured for PostgreSQL/MySQL)
-- **Filtering**: django-filter
+</div>
 
-## Project Structure
+---
 
-```
-Event/
-├── event_management/          # Django project settings
-│   ├── __init__.py           # Celery initialization
-│   ├── settings.py           # Django settings
-│   ├── urls.py              # Main URL configuration
-│   ├── wsgi.py              # WSGI config
-│   └── celery.py            # Celery configuration
-├── events/                   # Events app
-│   ├── models.py            # UserProfile, Event, RSVP, Review models
-│   ├── serializers.py       # DRF serializers
-│   ├── views.py             # ViewSets and API endpoints
-│   ├── permissions.py       # Custom permission classes
-│   ├── tasks.py             # Celery async tasks
-│   ├── signals.py           # Django signals (auto-create profiles)
-│   ├── urls.py              # App URL routing
-│   ├── admin.py             # Django admin configuration
-│   └── tests.py             # Unit tests
-├── manage.py                # Django management script
-├── requirements.txt         # Python dependencies
-└── README.md               # This file
-```
+## 📋 Overview
 
-## Quick Start (Windows)
+A robust and scalable Event Management System built with Django REST Framework. This API enables users to create events, manage RSVPs, leave reviews, and handle event invitations with comprehensive authentication and permission controls.
 
-**Activate virtual environment and run server:**
+### Key Features
 
-```bash
-# Option 1: Use the batch file
-run_server.bat
+- ✅ **Event Management** - Create, read, update, and delete events with organizer permissions
+- ✅ **RSVP System** - Users can RSVP to events with status options (Going, Maybe, Not Going)
+- ✅ **Review System** - Rate and review events with ratings (1-5 stars)
+- ✅ **JWT Authentication** - Secure API access using JSON Web Tokens
+- ✅ **Custom Permissions** - Granular access control for private events and organizer actions
+- ✅ **Pagination & Filtering** - Efficient data retrieval with search and filter capabilities
+- ✅ **Async Email Notifications** - Background task processing with Celery for event updates
+- ✅ **Comprehensive Testing** - Unit tests covering all major API endpoints
+- ✅ **Production Ready** - Configured for deployment with WhiteNoise and Gunicorn
 
-# Option 2: Manual activation
-venv\Scripts\activate
-python manage.py runserver
-```
+---
 
-**For Linux/Mac:**
-```bash
-source venv/bin/activate
-python manage.py runserver
-```
-
-## Installation & Setup
+## 🚀 Quick Start
 
 ### Prerequisites
 
 - Python 3.8 or higher
-- Redis (for Celery task queue)
-- Virtual environment (recommended)
+- pip (Python package manager)
+- Git
 
-### Step 1: Clone and Setup Virtual Environment
+### Installation
 
-```bash
-# Navigate to project directory
-cd Event
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/Akbari-Prayag/Event-Management-System.git
+   cd Event-Management-System
+   ```
 
-# Create virtual environment
-python -m venv venv
+2. **Create and activate virtual environment**
+   
+   **Windows:**
+   ```bash
+   python -m venv venv
+   venv\Scripts\activate
+   ```
+   
+   **Linux/Mac:**
+   ```bash
+   python3 -m venv venv
+   source venv/bin/activate
+   ```
 
-# Activate virtual environment
-# On Windows:
-venv\Scripts\activate
-# On macOS/Linux:
-source venv/bin/activate
-```
+3. **Install dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-### Step 2: Install Dependencies
+4. **Run migrations**
+   ```bash
+   python manage.py migrate
+   ```
 
-```bash
-pip install -r requirements.txt
-```
+5. **Create superuser (optional)**
+   ```bash
+   python manage.py createsuperuser
+   ```
 
-### Step 3: Setup Environment Variables
+6. **Start the development server**
+   ```bash
+   python manage.py runserver
+   ```
 
-Create a `.env` file in the project root (or use default values):
+7. **Access the API**
+   - API Root: `http://localhost:8000/api/`
+   - Admin Panel: `http://localhost:8000/admin/`
+   - API Documentation: `http://localhost:8000/api/events/`
 
-```env
-SECRET_KEY=your-secret-key-here
-DEBUG=True
-CELERY_BROKER_URL=redis://localhost:6379/0
-CELERY_RESULT_BACKEND=redis://localhost:6379/0
-EMAIL_HOST=smtp.gmail.com
-EMAIL_PORT=587
-EMAIL_USE_TLS=True
-EMAIL_HOST_USER=your-email@gmail.com
-EMAIL_HOST_PASSWORD=your-app-password
-DEFAULT_FROM_EMAIL=noreply@eventmanagement.com
-```
+---
 
-**Note**: For Gmail, you'll need to create an App Password. For development, the console email backend is used by default.
-
-### Step 4: Run Migrations
-
-```bash
-python manage.py makemigrations
-python manage.py migrate
-```
-
-### Step 5: Create Superuser (Optional)
-
-```bash
-python manage.py createsuperuser
-```
-
-### Step 6: Start Redis (Required for Celery)
-
-**On Windows** (using WSL or Docker):
-```bash
-# Using Docker:
-docker run -d -p 6379:6379 redis
-
-# Or install Redis for Windows
-```
-
-**On macOS** (using Homebrew):
-```bash
-brew install redis
-brew services start redis
-```
-
-**On Linux**:
-```bash
-sudo apt-get install redis-server
-sudo systemctl start redis
-```
-
-### Step 7: Start Development Server
-
-```bash
-# Terminal 1: Django development server
-python manage.py runserver
-
-# Terminal 2: Celery worker (required for async email tasks)
-celery -A event_management worker --loglevel=info
-
-# Terminal 3: Celery beat (if you need scheduled tasks, optional)
-celery -A event_management beat --loglevel=info
-```
-
-The API will be available at `http://localhost:8000/api/`
-
-## API Endpoints
+## 📚 API Endpoints
 
 ### Authentication
 
-- **POST** `/api/token/` - Get JWT access and refresh tokens
-  ```json
-  {
-    "username": "your_username",
-    "password": "your_password"
-  }
-  ```
-
-- **POST** `/api/token/refresh/` - Refresh access token
-  ```json
-  {
-    "refresh": "your_refresh_token"
-  }
-  ```
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/token/` | Get JWT access and refresh tokens |
+| POST | `/api/token/refresh/` | Refresh access token |
 
 ### Events
 
-- **POST** `/api/events/` - Create a new event (Authenticated)
-  ```json
-  {
-    "title": "Tech Meetup",
-    "description": "Monthly tech meetup",
-    "location": "San Francisco, CA",
-    "start_time": "2024-12-31T18:00:00Z",
-    "end_time": "2024-12-31T20:00:00Z",
-    "is_public": true
-  }
-  ```
-
-- **GET** `/api/events/` - List all public events (Paginated)
-  - Query params: `?search=keyword`, `?location=SF`, `?organizer=1`, `?ordering=-created_at`
-
-- **GET** `/api/events/{id}/` - Get event details
-
-- **PUT/PATCH** `/api/events/{id}/` - Update event (Organizer only)
-
-- **DELETE** `/api/events/{id}/` - Delete event (Organizer only)
+| Method | Endpoint | Auth Required | Description |
+|--------|----------|---------------|-------------|
+| GET | `/api/events/` | No | List all public events (paginated) |
+| GET | `/api/events/{id}/` | No | Get event details |
+| POST | `/api/events/` | Yes | Create a new event |
+| PUT/PATCH | `/api/events/{id}/` | Yes (Organizer) | Update event |
+| DELETE | `/api/events/{id}/` | Yes (Organizer) | Delete event |
 
 ### RSVP
 
-- **POST** `/api/events/{event_id}/rsvp/` - RSVP to an event
-  ```json
-  {
-    "status": "Going"
-  }
-  ```
-  Status options: "Going", "Maybe", "Not Going"
-
-- **PATCH** `/api/events/{event_id}/rsvp/{user_id}/` - Update RSVP status
-  ```json
-  {
-    "status": "Maybe"
-  }
-  ```
+| Method | Endpoint | Auth Required | Description |
+|--------|----------|---------------|-------------|
+| POST | `/api/events/{id}/rsvp/` | Yes | RSVP to an event |
+| PATCH | `/api/events/{id}/rsvp/{user_id}/` | Yes | Update RSVP status |
 
 ### Reviews
 
-- **POST** `/api/events/{event_id}/reviews/` - Add a review
-  ```json
-  {
-    "rating": 5,
-    "comment": "Great event!"
-  }
-  ```
-  Rating must be between 1 and 5.
+| Method | Endpoint | Auth Required | Description |
+|--------|----------|---------------|-------------|
+| GET | `/api/events/{id}/reviews/` | No | List all reviews for an event |
+| POST | `/api/events/{id}/reviews/` | Yes | Add a review |
 
-- **GET** `/api/events/{event_id}/list_reviews/` - List all reviews for an event
+### Additional Features
 
-### Invitations (Private Events)
+- **Search**: `?search=keyword` - Search events by title, description, location
+- **Filter**: `?location=city&organizer=id&is_public=true`
+- **Ordering**: `?ordering=-created_at` - Sort by creation date, start time, etc.
+- **Pagination**: Automatically paginated (20 items per page)
 
-- **POST** `/api/events/{event_id}/invite_user/` - Invite user to private event (Organizer only)
-  ```json
-  {
-    "user_id": 2
-  }
-  ```
+---
 
-## API Usage Examples
-
-### Using cURL
+## 🔐 Authentication Example
 
 ```bash
-# Get JWT token
+# 1. Get JWT Token
 curl -X POST http://localhost:8000/api/token/ \
   -H "Content-Type: application/json" \
-  -d '{"username": "user1", "password": "pass123"}'
+  -d '{"username": "your_username", "password": "your_password"}'
 
-# Create event (replace YOUR_ACCESS_TOKEN)
-curl -X POST http://localhost:8000/api/events/ \
-  -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "title": "Django Workshop",
-    "description": "Learn Django REST Framework",
-    "location": "Online",
-    "start_time": "2024-12-31T10:00:00Z",
-    "end_time": "2024-12-31T12:00:00Z",
-    "is_public": true
-  }'
+# Response:
+# {
+#   "access": "eyJ0eXAiOiJKV1QiLCJhbGc...",
+#   "refresh": "eyJ0eXAiOiJKV1QiLCJhbGc..."
+# }
 
-# RSVP to event
-curl -X POST http://localhost:8000/api/events/1/rsvp/ \
-  -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{"status": "Going"}'
+# 2. Use Token in Requests
+curl -X GET http://localhost:8000/api/events/ \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
 ```
 
-### Using Python requests
+---
 
-```python
-import requests
-
-# Get token
-response = requests.post('http://localhost:8000/api/token/', json={
-    'username': 'user1',
-    'password': 'pass123'
-})
-token = response.json()['access']
-
-# Create event
-headers = {'Authorization': f'Bearer {token}'}
-event_data = {
-    'title': 'Python Meetup',
-    'description': 'Monthly Python meetup',
-    'location': 'San Francisco',
-    'start_time': '2024-12-31T18:00:00Z',
-    'end_time': '2024-12-31T20:00:00Z',
-    'is_public': True
-}
-response = requests.post('http://localhost:8000/api/events/', 
-                        json=event_data, headers=headers)
-print(response.json())
-```
-
-## Testing
+## 🧪 Testing
 
 Run the test suite:
 
@@ -319,108 +163,200 @@ python manage.py test events
 
 The test suite includes:
 - Event CRUD operations
-- Permission tests (organizer-only actions)
+- Permission enforcement
 - Private event access control
 - RSVP functionality
 - Review system
 - Search and filtering
 
-## Key Features Explained
+---
 
-### Custom Permissions
+## 📁 Project Structure
 
-1. **IsOrganizerOrReadOnly**: Only event organizers can edit or delete their events
-2. **IsPrivateEventAllowed**: Private events are only accessible to:
-   - The organizer
-   - Invited users
-   - Users who have RSVP'd (indirect access)
-
-### Pagination
-
-All list endpoints return paginated results with 20 items per page. Response format:
-```json
-{
-  "count": 100,
-  "next": "http://localhost:8000/api/events/?page=2",
-  "previous": null,
-  "results": [...]
-}
+```
+Event-Management-System/
+├── event_management/          # Django project settings
+│   ├── settings.py          # Configuration and settings
+│   ├── urls.py             # Main URL routing
+│   ├── celery.py           # Celery task configuration
+│   └── wsgi.py             # WSGI configuration
+├── events/                  # Main application
+│   ├── models.py           # Database models
+│   ├── serializers.py     # DRF serializers
+│   ├── views.py           # API views and ViewSets
+│   ├── permissions.py     # Custom permission classes
+│   ├── tasks.py           # Celery async tasks
+│   ├── admin.py           # Django admin configuration
+│   └── tests.py            # Unit tests
+├── manage.py              # Django management script
+├── requirements.txt       # Python dependencies
+├── Procfile              # Deployment configuration
+└── README.md            # This file
 ```
 
-### Filtering & Search
+---
 
-- **Filter by**: `?organizer=1`, `?location=SF`, `?is_public=true`
-- **Search**: `?search=python` (searches in title, description, location, organizer username)
-- **Ordering**: `?ordering=-created_at` (newest first)
+## 🛠 Tech Stack
 
-### Async Email Notifications
+- **Backend Framework**: Django 4.2.7
+- **API Framework**: Django REST Framework 3.14.0
+- **Authentication**: JWT (djangorestframework-simplejwt)
+- **Task Queue**: Celery 5.3.4 with Redis
+- **Database**: SQLite (development) / PostgreSQL (production)
+- **Static Files**: WhiteNoise
+- **Production Server**: Gunicorn
 
-Celery tasks automatically send emails when:
-- A new event is created (to invited users)
-- An event is updated (to all RSVP'd users)
-- Someone RSVPs (to the organizer)
-- A review is posted (to the organizer)
+---
 
-## Database Models
+## 🔧 Configuration
 
-### UserProfile
-- Extends Django User model
-- Fields: `full_name`, `bio`, `location`, `profile_picture`
+### Environment Variables
 
-### Event
-- Fields: `title`, `description`, `organizer`, `location`, `start_time`, `end_time`, `is_public`
-- Auto-created fields: `created_at`, `updated_at`
+Create a `.env` file (optional for development):
 
-### RSVP
-- Fields: `event`, `user`, `status` (Going/Maybe/Not Going)
-- Unique constraint: One RSVP per user per event
+```env
+SECRET_KEY=your-secret-key-here
+DEBUG=True
+CELERY_BROKER_URL=redis://localhost:6379/0
+CELERY_RESULT_BACKEND=redis://localhost:6379/0
+```
 
-### Review
-- Fields: `event`, `user`, `rating` (1-5), `comment`
-- Unique constraint: One review per user per event
+### Celery Setup (Optional)
 
-### EventInvitation
-- Tracks invitations for private events
-- Fields: `event`, `user`, `invited_by`
+For async email notifications:
 
-## Production Considerations
+1. **Install and start Redis**
+   ```bash
+   # Using Docker
+   docker run -d -p 6379:6379 redis
+   ```
 
-1. **SECRET_KEY**: Change to a secure random key
-2. **DEBUG**: Set to `False` in production
-3. **ALLOWED_HOSTS**: Configure properly for your domain
-4. **Database**: Use PostgreSQL or MySQL instead of SQLite
-5. **Static Files**: Configure static file serving
-6. **Email Backend**: Use proper SMTP or email service (SendGrid, AWS SES)
-7. **CORS**: Configure allowed origins properly
-8. **Security**: Use HTTPS, configure security middleware
+2. **Start Celery worker**
+   ```bash
+   celery -A event_management worker --loglevel=info
+   ```
 
-## Troubleshooting
+---
 
-### Celery not working
-- Ensure Redis is running: `redis-cli ping` should return `PONG`
-- Check Celery worker logs for errors
-- Verify CELERY_BROKER_URL in settings
+## 🚢 Deployment
 
-### Email not sending
-- Check EMAIL_* settings in `.env`
-- For Gmail: Use App Password, not regular password
-- Check Celery worker is running
-- Verify console output (if using console backend)
+This project is configured for easy deployment on platforms like:
 
-### Permission denied errors
-- Ensure you're authenticated (include Bearer token)
-- Verify you're the organizer for edit/delete operations
-- Check event is_public status for access
+- **Railway** (Recommended) - [Deployment Guide](DEPLOYMENT.md)
+- **Render** - [Deployment Guide](DEPLOYMENT.md)
+- **Heroku** - [Deployment Guide](DEPLOYMENT.md)
 
-## License
+See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed deployment instructions.
 
-This project is created for educational purposes as an assignment submission.
+---
 
-## Contributing
+## 📝 API Usage Examples
 
-This is an assignment project. For learning purposes, feel free to fork and experiment!
+### Create an Event
 
-## Contact
+```bash
+curl -X POST http://localhost:8000/api/events/ \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Django Workshop",
+    "description": "Learn Django REST Framework",
+    "location": "Online",
+    "start_time": "2024-12-31T10:00:00Z",
+    "end_time": "2024-12-31T12:00:00Z",
+    "is_public": true
+  }'
+```
 
-For questions or issues, please refer to the assignment guidelines or contact your instructor.
+### RSVP to an Event
 
+```bash
+curl -X POST http://localhost:8000/api/events/1/rsvp/ \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"status": "Going"}'
+```
+
+### Add a Review
+
+```bash
+curl -X POST http://localhost:8000/api/events/1/reviews/ \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "rating": 5,
+    "comment": "Great event!"
+  }'
+```
+
+---
+
+## 📖 Documentation
+
+- [Quick Start Guide](QUICKSTART.md) - Get up and running in 5 minutes
+- [How to Run](HOW_TO_RUN.md) - Detailed setup instructions
+- [Deployment Guide](DEPLOYMENT.md) - Production deployment instructions
+- [Implementation Details](IMPLEMENTATION.md) - Technical documentation
+
+---
+
+## 🤝 Contributing
+
+This is a portfolio project. For suggestions or improvements, feel free to open an issue or submit a pull request.
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 👨‍💻 Author
+
+**Akbari Prayag**
+
+- GitHub: [@Akbari-Prayag](https://github.com/Akbari-Prayag)
+- Project Link: [Event Management System](https://github.com/Akbari-Prayag/Event-Management-System)
+
+---
+
+## ✨ Features Highlights
+
+### Custom Permissions
+- Only event organizers can edit or delete their events
+- Private events are only accessible to invited users
+- Granular permission system for secure API access
+
+### Advanced Filtering
+- Search events by title, description, location, or organizer
+- Filter by location, organizer, and visibility status
+- Sort by creation date, start time, or title
+
+### Background Processing
+- Asynchronous email notifications using Celery
+- Non-blocking task execution
+- Scalable architecture for production use
+
+---
+
+## 🎯 Project Goals
+
+This project demonstrates:
+
+- RESTful API design principles
+- Django REST Framework best practices
+- JWT authentication implementation
+- Custom permission classes
+- Database relationships and migrations
+- Async task processing with Celery
+- Comprehensive test coverage
+- Production-ready deployment configuration
+
+---
+
+## 📞 Contact
+
+For questions or inquiries, please reach out through GitHub or email.
+
+**Happy Coding! 🚀**

@@ -1,3 +1,10 @@
+"""
+Event Management System - Celery Tasks
+Author: Akbari Prayag
+GitHub: https://github.com/Akbari-Prayag/Event-Management-System
+
+Asynchronous tasks for email notifications using Celery.
+"""
 from celery import shared_task
 from django.core.mail import send_mail
 from django.conf import settings
