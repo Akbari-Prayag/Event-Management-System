@@ -53,6 +53,25 @@ Event/
 └── README.md               # This file
 ```
 
+## Quick Start (Windows)
+
+**Activate virtual environment and run server:**
+
+```bash
+# Option 1: Use the batch file
+run_server.bat
+
+# Option 2: Manual activation
+venv\Scripts\activate
+python manage.py runserver
+```
+
+**For Linux/Mac:**
+```bash
+source venv/bin/activate
+python manage.py runserver
+```
+
 ## Installation & Setup
 
 ### Prerequisites
